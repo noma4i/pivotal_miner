@@ -1,0 +1,49 @@
+<div class="contextual">
+  <%= link_to 'View Pivotal Users', {:action => 'pivotal_users'}, :class => 'icon icon-user' %>
+  <%= link_to 'Map Users From Pivotal', {:action => 'import_users'}, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-summary' %>
+  <%= link_to 'Commence Import', {:action => 'pivotal_importer'}, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-summary' %>
+
+  <%= link_to 'New mapping', {:action => 'new'}, :class => 'icon icon-add' %>
+</div>
+
+<h2>Pivotal <-> Redmine Mappings</h2>
+
+<table class="list">
+
+  <thead>
+    <tr>
+    	<th>
+    	  Redmine project
+     	</th>
+     	<th>
+    	  Pivotal Tracker project
+	    </th>
+      <th>
+        Label
+      </th>
+      <th>
+      </th>
+  	</tr>
+  </thead>
+
+  <tbody>
+  <% @mappings.each do |mapping|%>
+    <tr>
+    	<td>
+        <%= mapping.project.name %>
+      </td>
+      <td>
+        <%= mapping.tracker_project_name%>
+      </td>
+      <td>
+        <%= mapping.label %>
+      </td>
+    	<td class="buttons">
+          <%= link_to 'Edit', edit_mapping_path(mapping), :class => 'icon icon-edit' %>
+    	    <%= link_to 'Delete', mapping_path(mapping), :method => :delete, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-del' %>
+    	</td>
+  	</tr>
+    <% end %>
+	</tbody>
+
+</table>

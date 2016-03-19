@@ -1,0 +1,19 @@
+<h3>Pivotal Users List</h3>
+<table class="list">
+  <thead><tr>
+  <th>Full Name</th>
+  <th>Username</th>
+  <th>Email</th>
+  <th>Pivotal ID</th>
+  </tr></thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+    <td><%= user.fullname %></td>
+    <td><%= user.username %></td>
+    <td><%= user.email %></td>
+    <td><%= user.id %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
