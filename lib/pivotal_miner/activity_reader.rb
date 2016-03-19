@@ -16,11 +16,7 @@ module PivotalMiner
     end
 
     def update_issues
-      if activity.story_started?
-        PivotalMiner::IssuesRestarter.new(issues, activity).run
-      else
-        PivotalMiner::IssuesUpdater.new(issues, activity).run
-      end
+      PivotalMiner::IssuesUpdater.new(issues, activity).run
     end
 
     def issues
