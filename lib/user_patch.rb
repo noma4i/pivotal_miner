@@ -7,7 +7,7 @@ module UserPatch
       unloadable
 
       def self.get_by_pivotal_id(pivotal_id)
-        users ||= User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal ID', pivotal_id)
+        users ||= User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal User ID', pivotal_id)
 
         users.last
       end
