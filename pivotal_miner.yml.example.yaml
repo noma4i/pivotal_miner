@@ -1,0 +1,33 @@
+admin@example.net:
+  email: noma4i@gmail.com
+  password: NilN@OIU#BUI!#123
+
+super_user:
+  token: 12n31h4i515jh2iu35h2ij5ui324h12j3io12312
+
+error_notification:
+  recipient: test@example.com
+  from: "[information to emails FROM field]"
+
+mappings:
+  tasks: Task
+  removed_task: Rejected
+  priority:
+     P1: Immediate
+     P2: Urgent
+     P3: High
+     P4: Medium
+     P5: Low
+  story_states:
+    unstarted: Pending
+    started: Implementation
+    finished: Resolved
+    delivered: Resolved
+    accepted: Closed
+    rejected: Pending
+  task_states:
+    Pending: open
+    Implementation: open
+    Resolved: closed
+    Closed: closed
+    Accepted: open
