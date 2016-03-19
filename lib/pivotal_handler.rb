@@ -15,7 +15,7 @@ class PivotalHandler < Sinatra::Base
       return [200, 'Got the activity']
     elsif %w(task_update_activity task_create_activity).include?(pivotal_body['kind'])
       activity = PivotalMiner::Activity.new(pivotal_body)
-      issue = Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal Story ID', activity.story.id.to_s).last
+      issue = Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_STORY_ID, activity.story.id.to_s).last
 
       PivotalMiner::TasksUpdater.new(issue).run
 
