@@ -2,14 +2,13 @@ module PivotalMiner
   class IssueCreator
 
     def initialize(label, issue_attributes, mapped_users)
-
       self.label = label
       self.issue_attributes = issue_attributes
       self.users = mapped_users
     end
 
     def run
-      create_issue
+      create_issue unless Issue.issue_exist?(story.id)
     end
 
     def description
@@ -57,7 +56,7 @@ module PivotalMiner
     end
 
     def mapping
-      @mapping ||= PivotalMiner.get_mapping(project_id, Unicode.downcase(label))
+      @mapping ||= PivotalMiner.get_mapping(project_id, Unicode.downcase('sync_all_labels')) || PivotalMiner.get_mapping(project_id, Unicode.downcase(label))
     end
 
     def tracker

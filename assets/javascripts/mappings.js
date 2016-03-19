@@ -4,6 +4,7 @@ $(document).ready(function ($) {
     $.ajax('/mappings/update_labels', {
       success: function(response) {
         $('#mapping_label option').remove();
+        $('#mapping_label').append("<option value='sync_all_labels'>-- ALL LABELS --</option>");
         $.each(response, function(index, label){
           $('#mapping_label').append("<option value=" + label +">"+ label + "</option>");
         });

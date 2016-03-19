@@ -9,10 +9,13 @@ class Mapping < ActiveRecord::Base
   validates :tracker_project_id, presence:true
   validates :estimations, presence:true
   validates :story_types, presence:true
-  validates :label, presence:true
 
   validates_uniqueness_of :tracker_project_id, scope: :label
 
   serialize :estimations
   serialize :story_types
+
+  def sync_all?
+    label == 'sync_all_labels' || label.empty?
+  end
 end

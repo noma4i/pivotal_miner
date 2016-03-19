@@ -87,18 +87,19 @@ class MappingsController < ApplicationController
     connect_api_v5
     projects = PivotalMiner.projects
     projects.each do |project|
-      next unless Mapping.all.map(&:tracker_project_id).include?(project.id)
+      redmine_mapping = Mapping.where(tracker_project_id: project.id)
+      next unless redmine_mapping.any?
 
       members = get_members(project.id)
       project.stories.all.each do |story|
-        next if Issue.issue_exist?(story.id)
-        labels = story.labels.to_s.split(',') || ['']
+        labels = story.labels.to_s.split(',') || ['sync_all_labels']
         attrs = {
           project_id: project.id,
           story: story,
           author: get_user(members[story.requested_by]),
           assigned_to: get_user(members[story.requested_by])
         }
+
         labels.each { |label| PivotalMiner::IssueCreator.new(label, attrs, members).run }
       end
     end
