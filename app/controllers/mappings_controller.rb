@@ -112,6 +112,7 @@ class MappingsController < ApplicationController
     @users = []
     @pv_client.projects.each do |project|
       project.memberships.each do |member|
+        next if @users.map(&:id).include?(member.person.id)
         @users << OpenStruct.new(
           id: member.person.id,
           fullname: member.person.name,
