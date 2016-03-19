@@ -35,7 +35,7 @@ module PivotalMiner
 
     def author
       users = User.joins({custom_values: :custom_field})
-        .where("custom_fields.name=? AND custom_values.value=?", 'Pivotal User ID', author_id)
+        .where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, author_id)
 
       users.last
     end

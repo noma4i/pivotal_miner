@@ -1,6 +1,7 @@
 module PivotalMiner
   ACCEPTED_STATUS = 'Pending'
   CF_STORY_ID = 'Pivotal Story ID'
+  CF_TASK_ID = 'Pivotal Task ID'
   CF_USER_ID = 'Pivotal User ID'
   CF_PROJECT_ID = 'Pivotal Project ID'
   CF_STORY_DESCRIPTION = 'Pivotal Story Description'
@@ -19,6 +20,7 @@ module PivotalMiner
     def missing_custom_fields
       fields = [
         CustomField.where(name: CF_STORY_ID).any?,
+        CustomField.where(name: CF_TASK_ID).any?,
         CustomField.where(name: CF_USER_ID).any?,
         CustomField.where(name: CF_PROJECT_ID).any?,
         CustomField.where(name: CF_STORY_DESCRIPTION).any?

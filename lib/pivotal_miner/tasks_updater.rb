@@ -14,7 +14,7 @@ module PivotalMiner
       tasks = project.story(issue.pivotal_story_id).tasks.all || []
 
       tasks.each do |task|
-        existing_task = Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal Task ID', task.id.to_s).last
+        existing_task = Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_TASK_ID, task.id.to_s).last
         if existing_task.present?
           PivotalMiner::TaskUpdater.new(existing_task.id, task).run
         else

@@ -14,19 +14,19 @@ module PivotalMiner
     end
 
     def custom_field_pivotal_story_id
-      CustomField.find_by_name('Pivotal Story ID').id
+      CustomField.find_by_name(PivotalMiner::CF_STORY_ID).id
     end
 
     def custom_field_pivotal_project_id
-      CustomField.find_by_name('Pivotal Project ID').id
+      CustomField.find_by_name(PivotalMiner::CF_PROJECT_ID).id
     end
 
     def custom_field_pivotal_task_id
-      CustomField.find_by_name('Pivotal Task ID').id
+      CustomField.find_by_name(PivotalMiner::CF_TASK_ID).id
     end
 
     def custom_field_pivotal_story_description
-      CustomField.find_by_name('Pivotal Story Description').id
+      CustomField.find_by_name(PivotalMiner::CF_STORY_DESCRIPTION).id
     end
 
     def create_custom_values

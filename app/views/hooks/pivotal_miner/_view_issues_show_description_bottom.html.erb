@@ -1,4 +1,5 @@
 <% if @issue.pivotal_project_id != 0 %>
+  <% unless PivotalMiner.missing_custom_fields %>
   <hr/>
   <div class='description'>
   <p><strong>Pivotal Story</strong></p>
@@ -6,4 +7,5 @@
     <%= textilizable(@issue.pivotal_story_description) %>
   </p>
   </div>
+  <% end %>
 <% end %>

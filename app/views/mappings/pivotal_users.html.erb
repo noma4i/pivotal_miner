@@ -17,7 +17,7 @@
     <td><%= user.email %></td>
     <td><%= user.id %></td>
     <td data-pivotal-id="<%= user.id %>">
-      <%= select_tag 'pivotal_user_mapping', options_for_select(@redmine_users, user.id), :include_blank => true %>
+      <%= select_tag 'pivotal_user_mapping', options_for_select(@redmine_users, User.get_by_pivotal_id(user.id).try(:id)), :include_blank => true %>
     </td>
     </tr>
   <% end %>

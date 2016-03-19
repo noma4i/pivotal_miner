@@ -132,7 +132,11 @@ class MappingsController < ApplicationController
   end
 
   def update_user
-    User.find(params[:user_id]).pivotal_id = params[:pivotal_id]
+    user_old = User.get_by_pivotal_id(params[:pivotal_id])
+    user = User.find(params[:user_id])
+
+    user_old.pivotal_id = nil if user_old.present?
+    user.pivotal_id = params[:pivotal_id] if user.present?
 
     head :ok
   end
@@ -148,7 +152,7 @@ class MappingsController < ApplicationController
 
   def get_user(pivotal_id)
     users = User.joins({custom_values: :custom_field})
-      .where("custom_fields.name=? AND custom_values.value=?", 'Pivotal User ID', pivotal_id)
+      .where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, pivotal_id)
 
     users.last
   end

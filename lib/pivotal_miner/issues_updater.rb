@@ -53,7 +53,7 @@ module PivotalMiner
         end
 
         if owned_by.present?
-          owners = User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal User ID', owned_by)
+          owners = User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, owned_by)
 
           issue.assigned_to = owners.first if owners.present?
         end

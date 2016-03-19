@@ -1,6 +1,6 @@
 <div class="contextual">
-  <%= link_to 'View Pivotal Users', {:action => 'pivotal_users'}, :class => 'icon icon-user' %>
-  <%= link_to 'Map Users From Pivotal', {:action => 'import_users'}, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-summary' %>
+  <%= link_to 'Map Pivotal Users', {:action => 'pivotal_users'}, :class => 'icon icon-user' %>
+  <%= link_to 'Import User's Pivotal ID', {:action => 'import_users'}, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-summary' %>
   <%= link_to 'Perform Import', {:action => 'pivotal_importer'}, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-summary' %>
 
   <%= link_to 'New mapping', {:action => 'new'}, :class => 'icon icon-add' %>

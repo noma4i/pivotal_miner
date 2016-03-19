@@ -13,27 +13,27 @@ module IssuePatch
       end
 
       def pivotal_project_id=(project_id)
-        pivotal_custom_value('Pivotal Project ID').update_attributes!(value: project_id.to_s)
+        pivotal_custom_value(PivotalMiner::CF_PROJECT_ID).update_attributes!(value: project_id.to_s)
       end
 
       def pivotal_project_id
-        pivotal_custom_value('Pivotal Project ID').try(:value).to_i
+        pivotal_custom_value(PivotalMiner::CF_PROJECT_ID).try(:value).to_i
       end
 
       def pivotal_story_id=(story_id)
-        pivotal_custom_value('Pivotal Story ID').update_attributes!(value: story_id.to_s)
+        pivotal_custom_value(PivotalMiner::CF_STORY_ID).update_attributes!(value: story_id.to_s)
       end
 
       def pivotal_story_id
-        pivotal_custom_value('Pivotal Story ID').try(:value).to_i
+        pivotal_custom_value(PivotalMiner::CF_STORY_ID).try(:value).to_i
       end
 
       def pivotal_task_id
-        pivotal_custom_value('Pivotal Task ID').try(:value).to_i
+        pivotal_custom_value(PivotalMiner::CF_TASK_ID).try(:value).to_i
       end
 
       def pivotal_story_description
-        pivotal_custom_value('Pivotal Story Description').try(:value)
+        pivotal_custom_value(PivotalMiner::CF_STORY_DESCRIPTION).try(:value)
       end
 
       def issue_closed?
@@ -49,7 +49,7 @@ module IssuePatch
       end
 
       def self.issue_exist?(pivotal_id)
-        issues ||= Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal Story ID', pivotal_id)
+        issues ||= Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_STORY_ID, pivotal_id)
 
         issues.count > 0 ? true : false
       end

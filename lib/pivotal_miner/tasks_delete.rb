@@ -2,7 +2,7 @@ module PivotalMiner
   class TasksDelete
 
     def initialize(pivotal_task_id)
-      self.issue_id = Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal Task ID', pivotal_task_id.to_s).last.id
+      self.issue_id = Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_TASK_ID, pivotal_task_id.to_s).last.id
     end
 
     def run

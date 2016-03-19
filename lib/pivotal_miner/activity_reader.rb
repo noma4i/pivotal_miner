@@ -20,7 +20,7 @@ module PivotalMiner
     end
 
     def issues
-      issues ||= Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", 'Pivotal Story ID', activity.story_id.to_s)
+      issues ||= Issue.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_STORY_ID, activity.story_id.to_s)
       @issues = issues.delete_if{|i| i.pivotal_task_id > 0}
     end
 
