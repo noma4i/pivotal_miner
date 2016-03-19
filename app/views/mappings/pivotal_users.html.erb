@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'mappings', plugin: 'pivotal_miner' %>
+
 <h3>Pivotal Users List</h3>
 <table class="list">
   <thead><tr>
@@ -5,6 +7,7 @@
   <th>Username</th>
   <th>Email</th>
   <th>Pivotal ID</th>
+  <th>Redmine User</th>
   </tr></thead>
   <tbody>
   <% @users.each do |user| %>
@@ -13,6 +16,9 @@
     <td><%= user.username %></td>
     <td><%= user.email %></td>
     <td><%= user.id %></td>
+    <td data-pivotal-id="<%= user.id %>">
+      <%= select_tag 'pivotal_user_mapping', options_for_select(@redmine_users, user.id), :include_blank => true %>
+    </td>
     </tr>
   <% end %>
   </tbody>

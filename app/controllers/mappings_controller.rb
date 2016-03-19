@@ -111,6 +111,7 @@ class MappingsController < ApplicationController
   def pivotal_users
     connect_api_v5
     @users = []
+    @redmine_users = User.all.map{|u| [u.name, u.id] }
     @pv_client.projects.each do |project|
       project.memberships.each do |member|
         next if @users.map(&:id).include?(member.person.id)
@@ -122,6 +123,12 @@ class MappingsController < ApplicationController
         )
       end
     end
+  end
+
+  def update_user
+    User.find(params[:user_id]).pivotal_id = params[:pivotal_id]
+
+    head :ok
   end
 
   private

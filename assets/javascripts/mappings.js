@@ -13,4 +13,15 @@ $(document).ready(function ($) {
     });
   });
   $('#tracker_project_id').change();
+
+  $('#pivotal_user_mapping').on('change', function() {
+    var user_id = $(this).val();
+    var pivotal_id = $(this).parents('td').data('pivotal-id');
+    $.ajax('/mappings/update_user', {
+      success: function(response) {
+        alert('User mapped!');
+      },
+      data: { 'user_id': user_id, 'pivotal_id': pivotal_id }
+    });
+  });
 });
