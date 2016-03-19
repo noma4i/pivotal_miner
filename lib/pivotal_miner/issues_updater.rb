@@ -65,7 +65,7 @@ module PivotalMiner
     end
 
     def mapping_still_exists?(issue)
-      issue.project.mappings.where(tracker_project_id: pivotal_project_id).present? rescue false
+      issue.project.mappings.where(tracker_project_id: issue.pivotal_project_id).present? rescue false
     end
 
     private
