@@ -2,7 +2,7 @@
 
 Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine plugin](https://github.com/capita/redmine_trackmine)
 
-*kindly sponsored by* ***Texuna Technologies Ltd***
+*kindly sponsored by* [***Texuna Technologies Ltd***](http://texuna.com)
 
 ## Features
 
@@ -24,6 +24,6 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine p
 [Alexander Tsirel @noma4i](https://github.com/noma4i)
 
 
-Copyright (c) 2016 - forever **Texuna Technologies Ltd**
+Copyright (c) 2016 [**Texuna Technologies Ltd**](http://texuna.com)
 
 Copyright (c) 2010 - 2015 **Capita Unternehmensberatung GmbH. See LICENSE for details.**
