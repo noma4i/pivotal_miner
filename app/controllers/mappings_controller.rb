@@ -7,6 +7,12 @@ class MappingsController < ApplicationController
 
   def index
     @mappings = Mapping.all
+
+    if PivotalMiner.missing_custom_fields
+      render 'missing_fields'
+    else
+      render 'index'
+    end
   end
 
   def new

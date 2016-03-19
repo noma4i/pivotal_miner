@@ -1,5 +1,9 @@
 module PivotalMiner
   ACCEPTED_STATUS = 'Pending'
+  CF_STORY_ID = 'Pivotal Story ID'
+  CF_USER_ID = 'Pivotal User ID'
+  CF_PROJECT_ID = 'Pivotal Project ID'
+  CF_STORY_DESCRIPTION = 'Pivotal Story Description'
 
   WrongActivityData = Class.new(StandardError)
   MissingPivotalMinerConfig = Class.new(StandardError)
@@ -11,6 +15,17 @@ module PivotalMiner
 
   class << self
     attr_writer :error_notification
+
+    def missing_custom_fields
+      fields = [
+        CustomField.where(name: CF_STORY_ID).any?,
+        CustomField.where(name: CF_USER_ID).any?,
+        CustomField.where(name: CF_PROJECT_ID).any?,
+        CustomField.where(name: CF_STORY_DESCRIPTION).any?
+      ]
+
+      fields.include?(false) ? true : false
+    end
 
     def set_error_notification
       @error_notification = PivotalMiner::Configuration.new.error_notification
