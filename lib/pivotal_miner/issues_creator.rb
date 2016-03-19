@@ -24,7 +24,7 @@ module PivotalMiner
     def run
       pv_client = PivotalMiner.api_v5
       members = []
-      pv_client.project(project_id).memberships.map{|m| members << Hash[ m.person.name, m.person.id] }
+      pv_client.project(activity.project_id).memberships.map{|m| members << Hash[ m.person.name, m.person.id] }
       labels.each { |label| IssueCreator.new(label, issue_attributes, members.reduce(:merge)).run }
     end
 
