@@ -21,7 +21,7 @@ module PivotalMiner
     end
 
     def issue_params
-      author_id = 1
+      author_id = AnonymousUser.first.id
       priority_id = IssuePriority.first.try(:id)
       {
         subject: story.name,
@@ -69,7 +69,7 @@ module PivotalMiner
 
     def add_comments(issue)
       story.notes.all.each do |note|
-        user = User.get_by_pivotal_id(users[note.author]) || User.first
+        user = User.get_by_pivotal_id(users[note.author]) || AnonymousUser.first
         journal = issue.journals.create(notes: note.text, user: user)
       end
     end
