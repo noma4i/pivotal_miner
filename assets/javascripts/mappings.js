@@ -3,6 +3,7 @@ $(document).ready(function ($) {
     var tracker_project_id = $(this).val();
     $.ajax('/mappings/update_labels', {
       success: function(response) {
+        $('#mapping_label option').remove();
         $.each(response, function(index, label){
           $('#mapping_label').append("<option value=" + label +">"+ label + "</option>");
         });
