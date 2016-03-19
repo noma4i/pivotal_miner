@@ -10,7 +10,7 @@ module PivotalMiner
     end
 
     def labels
-      story.labels.to_s.split(',') || ['']
+      story.labels.to_s.split(',') || ['sync_all_labels']
     end
 
     def issue_attributes
