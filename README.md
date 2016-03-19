@@ -1,8 +1,10 @@
-= Redmine PivotalMiner Plugin
+# Redmine PivotalMiner Plugin
 
-Two-Way sync Pivotal Tracker stories/tasks to Redmine
+Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine plugin](https://github.com/capita/redmine_trackmine)
 
-== Features
+*kindly sponsored by* ***Texuna Technologies Ltd***
+
+## Features
 
 * Updating story in a Pivotal Tracker automatically creates a correspondent Redmine issue
 * Pivotal Story tasks are created as subtask issues in Redmine.
@@ -13,12 +15,15 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine
 * Change priority in Redmine with tags from Pivotal Story
 * Assign Milestone with tags
 
-== Setup
+## Setup
 
  * plop plop!
 
-== Copyright
+## Author
 
-Copyright (c) 2015 Texuna
-Copyright (c) 2010-2015 Capita Unternehmensberatung GmbH. See LICENSE for details.
+[Alexander Tsirel @noma4i](https://github.com/noma4i)
 
+
+Copyright (c) 2016 - forever **Texuna Technologies Ltd**
+
+Copyright (c) 2010 - 2015 **Capita Unternehmensberatung GmbH. See LICENSE for details.**
