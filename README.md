@@ -14,6 +14,7 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine p
 * Mapping between Pivotal Tracker and Redmine attributes can be configured
 * Change priority in Redmine with tags from Pivotal Story
 * Assign Milestone with tags
+* Map Redmine Users to Pivotal
 
 ## Setup
 
