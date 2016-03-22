@@ -1,4 +1,4 @@
-<% if @issue.pivotal_project_id != 0 %>
+<% if @issue.try(:pivotal_project_id) != 0 %>
   <% unless PivotalMiner.missing_custom_fields %>
   <hr/>
   <div class='description'>
