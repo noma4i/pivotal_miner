@@ -27,6 +27,15 @@
   </thead>
 
   <tbody>
+
+  <% unless @mappings.any? %>
+    <tr class="nodata">
+      <td colspan="4">
+          No mappings defined so far...
+      </td>
+    </tr>
+
+  <% end %>
   <% @mappings.each do |mapping|%>
     <tr>
     	<td>

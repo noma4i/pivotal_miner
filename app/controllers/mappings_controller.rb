@@ -9,6 +9,7 @@ class MappingsController < ApplicationController
     @mappings = Mapping.all
 
     if PivotalMiner.missing_custom_fields
+      @custom_fields_list = PivotalMiner.custom_fields_list
       render 'missing_fields'
     else
       render 'index'

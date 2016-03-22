@@ -3,3 +3,6 @@ a.mapping{
   background-size: 16px 16px;
   background-repeat: no-repeat;
 }
+p.left{
+  text-align: left !important;
+}

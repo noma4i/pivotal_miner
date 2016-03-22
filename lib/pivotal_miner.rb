@@ -17,6 +17,16 @@ module PivotalMiner
   class << self
     attr_writer :error_notification
 
+    def custom_fields_list
+      [
+        CF_STORY_ID,
+        CF_TASK_ID,
+        CF_USER_ID,
+        CF_PROJECT_ID,
+        CF_STORY_DESCRIPTION
+      ]
+    end
+
     def missing_custom_fields
       fields = [
         CustomField.where(name: CF_STORY_ID).any?,
