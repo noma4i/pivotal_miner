@@ -19,17 +19,17 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine p
 ## Setup
 ### Installation
 Clone it into under plugins folder:
-
+````
   $ git clone https://github.com/noma4i/pivotal_miner.git
-
+````
 Install missing gems:
-
+````
   $ bundle install
-
+````
 Run migrations:
-
+````
   $ rake redmine:plugins:migrate
-
+````
 ### Configuration. Redmine side
 
 #### pivotal_miner.yml
