@@ -3,10 +3,10 @@ module PivotalMiner
     class << self
 
       def set_token(email)
-        credentials = PivotalMiner::Configuration.new.credentials(email) ||
-            raise(MissingCredentials, "Missing credentials for #{email} in PivotalMiner.yml")
+        credentials = PivotalMiner::Configuration.new.credentials('super_user') ||
+            raise(MissingCredentials, "Missing token for super_user in pivotal_miner.yml")
 
-        credentials.token ? set_token_from_config(credentials) : set_token_from_email(credentials)
+        set_token_from_config(credentials)
         PivotalTracker::Client.use_ssl = true
       rescue => e
         raise WrongCredentials.new("Wrong Pivotal Tracker credentials in PivotalMiner.yml. #{e}")
@@ -16,11 +16,6 @@ module PivotalMiner
         @token = credentials.token
         PivotalTracker::Client.token = @token
       end
-
-      def set_token_from_email(credentials)
-        @token = PivotalTracker::Client.token(credentials.email, credentials.password)
-      end
-
     end
   end
 end
