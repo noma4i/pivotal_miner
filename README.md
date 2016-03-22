@@ -7,6 +7,8 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine p
 ## Features
 
 * Updating story in a Pivotal Tracker automatically creates a correspondent Redmine issue
+* Map what to import. All User Stories are selected tags only
+* Perform Import existing Pivotal Project Stories
 * Pivotal Story tasks are created as subtask issues in Redmine.
 * Updating a story in a Pivotal Tracker updates the Redmine issue attributes (subject, description, status)
 * Redmine Issue status change will update Pivotal Story status
@@ -14,7 +16,7 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine p
 * Mapping between Pivotal Tracker and Redmine attributes can be configured
 * Change priority in Redmine with tags from Pivotal Story
 * Assign Milestone with tags
-* Map Redmine Users to Pivotal
+* Map Redmine Users to Pivotal manual or with email automatcher
 
 ## Setup
 ### Installation
