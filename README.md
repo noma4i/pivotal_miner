@@ -18,6 +18,9 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine p
 * Assign Milestone with tags
 * Map Redmine Users to Pivotal manual or with email automatcher
 
+## Compatibility
+  - Tested with Redmine 2.3.x - 2.4.x
+  - Known to be working with 2.4.x - 3.1.x
 ## Setup
 ### Installation
 Clone it into under plugins folder:
