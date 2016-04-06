@@ -36,9 +36,10 @@ module PivotalMiner
         attrs = {}
 
         issue.init_journal(user)
+        desc_field_id = CustomField.find_by_name(PivotalMiner::CF_STORY_DESCRIPTION).id
+        attrs = attrs.merge(custom_field_values: Hash[desc_field_id, description])
         issue.update_attributes!(params) if mapping_still_exists?(issue)
         issue.init_journal(user)
-        PivotalMiner::CustomValuesCreator.new(activity.project_id, activity.story_id, issue.id, nil, description).run
 
         # map labels
         tags.map(&:upcase).each do |tag|
@@ -63,6 +64,7 @@ module PivotalMiner
 
         issue.update_attributes(attrs)
 
+        PivotalMiner::CustomValuesCreator.new(activity.project_id, activity.story_id, issue.id, nil, description).run
         PivotalMiner::TasksUpdater.new(issue).run
       end
     end
