@@ -50,7 +50,7 @@ module PivotalMiner
 
     def mapping_params
       {
-        tracker_id: tracker.id,
+        tracker_id: tracker.try(:id),
         estimated_hours: estimated_hours
       }
     end
@@ -79,6 +79,7 @@ module PivotalMiner
       return if tracker.nil?
       issue = mapping.project.issues.create!(issue_params.merge(mapping_params))
       add_comments(issue)
+
       PivotalMiner::CustomValuesCreator.new(project_id, story.id, issue.id, nil, description).run unless project_id.to_i.blank? || story.id.to_i.blank?
 
       PivotalMiner::TasksUpdater.new(issue).run

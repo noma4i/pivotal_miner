@@ -48,6 +48,10 @@ module PivotalMiner
       activity['changes'].select { |r| r['kind'] == 'story' }.first['new_values'] if activity['changes']
     end
 
+    def performed_by
+      activity['performed_by']
+    end
+
     def changed_values
       activity['changes']
     end
