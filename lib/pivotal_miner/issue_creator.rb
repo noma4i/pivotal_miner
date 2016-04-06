@@ -77,6 +77,7 @@ module PivotalMiner
     def create_issue
       return if mapping.try(:project).nil?
       return if tracker.nil?
+
       issue = mapping.project.issues.create!(issue_params.merge(mapping_params))
       add_comments(issue)
 

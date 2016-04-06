@@ -29,12 +29,17 @@ module PivotalMiner
       issue = old_issue.dup
       issue.subject = task_attributes.description
       issue.tracker = Tracker.find_by_name(config_mappings['tasks'])
-      attrs = issue.attributes.delete_if{|k,v| %w{lft rgt}.include?(k)}
-
+      attrs = issue.attributes.delete_if{|k,v| %w{lft rgt estimated_hours}.include?(k)}
       created_issue = Issue.create!(attrs)
 
-      old_issue.children << created_issue
-      old_issue.save!
+
+      relation = IssueRelation.new(relation_type: 'relates')
+      relation.issue_to_id = old_issue.id
+      relation.issue_from_id = created_issue.id
+      relation.save!
+
+      # old_issue.children << created_issue
+      # old_issue.save!
 
       PivotalMiner::TaskUpdater.new(created_issue.id, task_attributes).run
       PivotalMiner::CustomValuesCreator.new(project_id, story, created_issue.id, task_attributes.id, old_issue.pivotal_story_description).run
