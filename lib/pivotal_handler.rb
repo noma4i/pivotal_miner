@@ -8,8 +8,8 @@ class PivotalHandler < Sinatra::Base
     if %w(story_update_activity story_create_activity).include?(pivotal_body['kind'])
       begin
         PivotalMiner.read_activity(PivotalMiner::Activity.new(pivotal_body))
-      rescue => e
-        PivotalMinerMailer.error_mail("Error while reading activity message from Pivotal Tracker: #{e}").deliver
+      # rescue => e
+        # PivotalMinerMailer.error_mail("Error while reading activity message from Pivotal Tracker: #{e}").deliver
       end
 
       return [200, 'Got the activity']

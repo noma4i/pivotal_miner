@@ -76,13 +76,20 @@ module PivotalMiner
     end
 
     def sync_story(issue, project_id, story_id)
-      story = PivotalMiner::PivotalProject.new(project_id).story(story_id)
-      PivotalMiner::StorySync.new(issue, story).run
+      PivotalMiner::StorySync.new(issue, project_id, story_id).update_story
     end
 
-    def sync_task(issue, project_id, story_id, task_id)
-      task = PivotalMiner::PivotalProject.new(project_id).story(story_id).tasks.find(task_id)
-      PivotalMiner::TaskSync.new(issue, task).run
+    def sync_issue(issue, project_id, story_id)
+      PivotalMiner::StorySync.new(issue, project_id, story_id).update_issue
+    end
+
+    def sync_task(issue, project_id=nil, story_id=nil, task_id=nil)
+      if project_id.present?
+        task = PivotalMiner::PivotalProject.new(project_id).story(story_id).tasks.find(task_id)
+        PivotalMiner::TaskSync.new(issue, task).run
+      else
+        PivotalMiner::TasksUpdater.new(issue).run
+      end
     end
 
     def api_v5

@@ -54,9 +54,24 @@ module IssuePatch
         issues.count > 0 ? true : false
       end
 
-      def sync_states
-        return unless self.changes.include?('status_id') || self.changes.include?('priority_id')
+      def pivotal_label_sync(tags)
+        config_mappings = PivotalMiner::Configuration.new.map_config
+        attrs = {}
+        tags.map(&:upcase).each do |tag|
+          if config_mappings['priority'].include?(tag)
+            attrs = attrs.merge(priority_id: (IssuePriority.find_by_name(config_mappings['priority'][tag]).try(:id) || issue.priority).to_i)
+          end
 
+          if (/^M(\d*)/i =~ tag) === 0
+            attrs = attrs.merge(fixed_version_id: (Version.find_by_id(tag.gsub('M','')).try(:id) || issue.fixed_version_id))
+          end
+        end
+
+        attrs
+      end
+
+      def sync_states
+        return unless self.changes.include?('status_id') || self.changes.include?('priority_id') || self.changes.include?('fixed_version_id')
         PivotalMiner.sync_story(self, pivotal_project_id, pivotal_story_id) if pivotal_assigned? && !pivotal_task_assigned?
         PivotalMiner.sync_task(self, pivotal_project_id, pivotal_story_id, pivotal_task_id) if pivotal_assigned? && pivotal_task_assigned?
       rescue => e

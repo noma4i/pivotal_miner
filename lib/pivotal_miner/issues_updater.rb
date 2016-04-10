@@ -15,7 +15,7 @@ module PivotalMiner
     end
 
     def description
-      story_url.to_s + "\r\n" + activity.story.description.to_s
+      story_url.to_s + "\r\n\r\n" + activity.story.description.to_s
     end
 
     def params_changed
@@ -41,16 +41,7 @@ module PivotalMiner
         issue.update_attributes!(params) if mapping_still_exists?(issue)
         issue.init_journal(user)
 
-        # map labels
-        tags.map(&:upcase).each do |tag|
-          if config_mappings['priority'].include?(tag)
-            attrs = attrs.merge(priority_id: (IssuePriority.find_by_name(config_mappings['priority'][tag]).try(:id) || issue.priority).to_i)
-          end
-
-          if (/^M(\d*)/i =~ tag) === 0
-            attrs = attrs.merge(fixed_version_id: (Version.find_by_id(tag.gsub('M','')) || issue.fixed_version).to_i)
-          end
-        end
+        attrs = attrs.merge issue.pivotal_label_sync(tags)
 
         if new_state.present? && config_mappings['story_states'].include?(new_state.downcase)
           status = IssueStatus.find_by_name(config_mappings['story_states'][new_state.downcase])

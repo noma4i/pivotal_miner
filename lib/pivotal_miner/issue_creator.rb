@@ -12,7 +12,7 @@ module PivotalMiner
     end
 
     def description
-      story.url.to_s + "\r\n" + story.description.to_s
+      story.url.to_s + "\r\n\r\n" + story.description.to_s
     end
 
     def status
@@ -79,11 +79,11 @@ module PivotalMiner
       return if tracker.nil?
 
       issue = mapping.project.issues.create!(issue_params.merge(mapping_params))
-      add_comments(issue)
 
       PivotalMiner::CustomValuesCreator.new(project_id, story.id, issue.id, nil, description).run unless project_id.to_i.blank? || story.id.to_i.blank?
 
-      PivotalMiner::TasksUpdater.new(issue).run
+      PivotalMiner.sync_issue(issue, story.project_id, story.id)
+      PivotalMiner.sync_task(issue)
     end
 
     private
