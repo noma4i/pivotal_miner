@@ -15,7 +15,7 @@ module PivotalMiner
     end
 
     def description
-      story_url.to_s + "\r\n --- \r\n" + activity.story.description.to_s
+      "#{story_url.to_s} --- #{activity.story.description.to_s}"
     end
 
     def params_changed

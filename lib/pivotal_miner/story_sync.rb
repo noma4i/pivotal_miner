@@ -9,7 +9,7 @@ module PivotalMiner
     def update_issue
       config_mappings = PivotalMiner::Configuration.new.map_config
 
-      description = story.url + "\r\n --- \r\n" + story.description.to_s
+      description =  "#{story.url} --- #{story.description.to_s}"
       PivotalMiner::CustomValuesCreator.new(story.project_id, story.id, issue.id, nil, description).run
       status = IssueStatus.find_by_name(config_mappings['story_states'][story.current_state])
       story_type = Tracker.find_by_name(issue.project.mappings.last.story_types[story.story_type]) || issue.tracker
