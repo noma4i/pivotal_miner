@@ -37,7 +37,9 @@ module PivotalMiner
 
         issue.init_journal(user)
         desc_field_id = CustomField.find_by_name(PivotalMiner::CF_STORY_DESCRIPTION).id
-        attrs = attrs.merge(custom_field_values: Hash[desc_field_id, description])
+        if description != issue.description
+          attrs = attrs.merge(custom_field_values: Hash[desc_field_id, description])
+        end
         issue.update_attributes!(params) if mapping_still_exists?(issue)
         issue.init_journal(user)
 
