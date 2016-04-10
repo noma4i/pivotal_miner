@@ -42,7 +42,9 @@ module PivotalMiner
       end
 
       story_reload = PivotalMiner::PivotalProject.new(story.project_id).story(story.id)
-      story_reload.update(current_state: new_state, labels: tags.join(','))
+      story_reload.update labels: tags
+      story_reload = PivotalMiner::PivotalProject.new(story.project_id).story(story.id)
+      story_reload.update current_state: new_state
     end
 
     private
