@@ -11,13 +11,9 @@ module PivotalMiner
       create_issue unless Issue.issue_exist?(story.id)
     end
 
-    def description
-      story.url.to_s + "\r\n\r\n" + story.description.to_s
-    end
-
     def status
       IssueStatus.find_by_name(ACCEPTED_STATUS) ||
-          raise(WrongPivotalMinerConfiguration, "Can't find Redmine IssueStatus: #{ACCEPTED_STATUS} ")
+          raise "Can't find Redmine IssueStatus: #{ACCEPTED_STATUS}"
     end
 
     def issue_params
@@ -79,8 +75,6 @@ module PivotalMiner
       return if tracker.nil?
 
       issue = mapping.project.issues.create!(issue_params.merge(mapping_params))
-
-      PivotalMiner::CustomValuesCreator.new(project_id, story.id, issue.id, nil, description).run unless project_id.to_i.blank? || story.id.to_i.blank?
 
       PivotalMiner.sync_issue(issue, story.project_id, story.id)
       PivotalMiner.sync_task(issue)

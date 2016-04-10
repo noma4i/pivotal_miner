@@ -7,6 +7,9 @@ module PivotalMiner
     end
 
     def update_issue
+      description = story.url + "\r\n\r\n" + story.description.to_s
+      PivotalMiner::CustomValuesCreator.new(story.project_id, story.id, issue.id, nil, description).run
+
       attrs = issue.pivotal_label_sync(story.labels.split(','))
       attrs.to_a.map{|attr| issue.update_column(attr.first, attr.last)}
     end

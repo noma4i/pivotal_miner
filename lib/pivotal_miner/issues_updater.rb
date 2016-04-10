@@ -45,7 +45,7 @@ module PivotalMiner
 
         if new_state.present? && config_mappings['story_states'].include?(new_state.downcase)
           status = IssueStatus.find_by_name(config_mappings['story_states'][new_state.downcase])
-          attrs = attrs.merge(status_id: status.to_i) if status.present?
+          attrs = attrs.merge(status_id: status.try(:id)) if status.present?
         end
 
         if owned_by.present?
