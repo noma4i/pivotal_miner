@@ -7,10 +7,15 @@ module PivotalMiner
     end
 
     def update_issue
+      config_mappings = PivotalMiner::Configuration.new.map_config
+
       description = story.url + "\r\n\r\n" + story.description.to_s
       PivotalMiner::CustomValuesCreator.new(story.project_id, story.id, issue.id, nil, description).run
+      status = IssueStatus.find_by_name(config_mappings['story_states'][story.current_state])
 
       attrs = issue.pivotal_label_sync(story.labels.split(','))
+      attrs = attrs.merge(status_id: status.try(:id)) if status.present?
+
       attrs.to_a.map{|attr| issue.update_column(attr.first, attr.last)}
     end
 

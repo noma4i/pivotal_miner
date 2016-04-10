@@ -13,7 +13,7 @@ module PivotalMiner
 
     def status
       IssueStatus.find_by_name(ACCEPTED_STATUS) ||
-          raise "Can't find Redmine IssueStatus: #{ACCEPTED_STATUS}"
+          raise(WrongPivotalMinerConfiguration, "Can't find Redmine IssueStatus: #{ACCEPTED_STATUS} ")
     end
 
     def issue_params
