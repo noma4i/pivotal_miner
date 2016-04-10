@@ -9,7 +9,7 @@ module PivotalMiner
     def update_issue
       config_mappings = PivotalMiner::Configuration.new.map_config
 
-      description = story.url + "\r\n\r\n" + story.description.to_s
+      description = story.url + "\r\n --- \r\n" + story.description.to_s
       PivotalMiner::CustomValuesCreator.new(story.project_id, story.id, issue.id, nil, description).run
       status = IssueStatus.find_by_name(config_mappings['story_states'][story.current_state])
       story_type = Tracker.find_by_name(issue.project.mappings.last.story_types[story.story_type]) || issue.tracker
@@ -29,15 +29,20 @@ module PivotalMiner
       priority_tags = PivotalMiner::Configuration.new.map_config['priority']
       new_tag = priority_tags.invert[issue.priority.name]
       version = issue.changes['fixed_version_id']
-      tags_to_update = (tags - priority_tags.keys).push(new_tag)
+
+      priority_tags.keys.map(&:upcase).each do |p|
+        tags -= ["#{p}"]
+      end
+
+      tags << new_tag
 
       if version.present?
-        tags_to_update << "M#{version.last}"
-        tags_to_update -= ["M#{version.first}"] if version.first.present?
+        tags << "M#{version.last}"
+        tags -= ["M#{version.first}"] if version.first.present?
       end
 
       story_reload = PivotalMiner::PivotalProject.new(story.project_id).story(story.id)
-      story_reload.update(current_state: new_state, labels: tags_to_update)
+      story_reload.update(current_state: new_state, labels: tags.join(','))
     end
 
     private
