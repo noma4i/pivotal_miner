@@ -142,6 +142,15 @@ class MappingsController < ApplicationController
     head :ok
   end
 
+  def update_from_pivotal
+    issue = Issue.find(params[:issue_id])
+    issue.sync_from_pivotal
+
+    flash[:notice] = 'Issue was updated from Pivotal!'
+
+    redirect_to issue_path(issue)
+  end
+
   private
 
   def get_members(project_id)

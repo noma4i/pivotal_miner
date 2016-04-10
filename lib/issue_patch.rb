@@ -70,6 +70,10 @@ module IssuePatch
         attrs
       end
 
+      def sync_from_pivotal
+        PivotalMiner.sync_issue(self, pivotal_project_id, pivotal_story_id) if pivotal_assigned? && !pivotal_task_assigned?
+      end
+
       def sync_states
         return unless self.changes.include?('status_id') || self.changes.include?('priority_id') || self.changes.include?('fixed_version_id')
         PivotalMiner.sync_story(self, pivotal_project_id, pivotal_story_id) if pivotal_assigned? && !pivotal_task_assigned?

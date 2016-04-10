@@ -2,6 +2,9 @@
   <% unless PivotalMiner.missing_custom_fields %>
   <hr/>
   <div class='description'>
+  <div class="contextual">
+    <%= link_to 'Update', {:action => 'update_from_pivotal', :controller => 'mappings', :issue_id => @issue.id}, :class => 'icon icon-reload' %>
+  </div>
   <p><strong>Pivotal Story</strong></p>
   <p>
     <%= textilizable(@issue.pivotal_story_description) %>
