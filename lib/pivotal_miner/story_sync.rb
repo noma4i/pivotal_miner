@@ -12,10 +12,12 @@ module PivotalMiner
       description = story.url + "\r\n\r\n" + story.description.to_s
       PivotalMiner::CustomValuesCreator.new(story.project_id, story.id, issue.id, nil, description).run
       status = IssueStatus.find_by_name(config_mappings['story_states'][story.current_state])
+      story_type = Tracker.find_by_name(issue.project.mappings.last.story_types[story.story_type]) || issue.tracker
 
       attrs = issue.pivotal_label_sync(story.labels.split(','))
+      attrs = attrs.merge(subject: story.name) if status.present?
       attrs = attrs.merge(status_id: status.try(:id)) if status.present?
-
+      attrs = attrs.merge(tracker_id: story_type.try(:id))
       attrs.to_a.map{|attr| issue.update_column(attr.first, attr.last)}
     end
 
