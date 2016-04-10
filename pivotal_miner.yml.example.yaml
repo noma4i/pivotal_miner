@@ -25,6 +25,15 @@ mappings:
     delivered: Resolved
     accepted: Closed
     rejected: Pending
+  # Redmine Issue states map to Pivotal Story states
+  issue_states:
+    Pending: unstarted
+    Implementation: started
+    Resolved: finished
+    Resolved: delivered
+    Closed: accepted
+    Pending: rejected
+    Rejected: rejected
   # Redmine states map to Pivotal SubTasks 'ticks'
   task_states:
     Pending: open
