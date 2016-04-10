@@ -20,9 +20,8 @@ module PivotalMiner
     end
 
     def update_story
-      map_config = PivotalMiner::Configuration.new.map_config['story_states']
-      states = Hash[map_config.to_a.collect(&:reverse)]
-      new_state = states[issue.status.name]
+      states = PivotalMiner::Configuration.new.map_config['issue_states']
+      new_state = states[issue.status.name] || story.current_state
 
       tags = story.labels.split(',').map(&:upcase)
       priority_tags = PivotalMiner::Configuration.new.map_config['priority']
