@@ -6,18 +6,33 @@ module PivotalMiner
       self.issue = issue
     end
 
+    def labels
+      story.labels.split(',') + ['sync_all_labels']
+    end
+
+    def mapping
+      maps = []
+      labels.map do |label|
+        maps << PivotalMiner.get_mapping(story.project_id, Unicode.downcase(label))
+      end
+
+      maps.compact.last
+    end
+
     def update_issue
       config_mappings = PivotalMiner::Configuration.new.map_config
 
-      description =  "#{story.url} --- #{story.description.to_s}"
+      description =  "#{story.url} \r\n\r\n #{story.description.to_s}"
       PivotalMiner::CustomValuesCreator.new(story.project_id, story.id, issue.id, nil, description).run
       status = IssueStatus.find_by_name(config_mappings['story_states'][story.current_state])
       story_type = Tracker.find_by_name(issue.project.mappings.last.story_types[story.story_type]) || issue.tracker
 
-      attrs = issue.pivotal_label_sync(story.labels.split(','))
+      attrs = issue.pivotal_label_sync(labels)
       attrs = attrs.merge(subject: story.name) if status.present?
       attrs = attrs.merge(status_id: status.try(:id)) if status.present?
       attrs = attrs.merge(tracker_id: story_type.try(:id))
+      attrs = attrs.merge(estimated_hours: mapping.estimations[story.estimate.to_s].to_i) if mapping.present?
+
       attrs.to_a.map{|attr| issue.update_column(attr.first, attr.last)}
     end
 
@@ -41,15 +56,17 @@ module PivotalMiner
         tags -= ["M#{version.first}"] if version.first.present?
       end
 
-      story_reload = PivotalMiner::PivotalProject.new(story.project_id).story(story.id)
-      story_reload.update labels: tags
-      if new_state != story.current_state
-        story_reload = PivotalMiner::PivotalProject.new(story.project_id).story(story.id)
-        story_reload.update current_state: new_state
-      end
+      reload_and_update(labels: tags)
+      reload_and_update(estimate: mapping.estimations.invert[issue.estimated_hours.to_i.to_s]) if issue.changes.include?('estimated_hours')
+      reload_and_update(current_state: new_state) if issue.changes.include?('estimated_hours')
     end
 
-    private
+    protected
+
+    def reload_and_update(params)
+      story_reload = PivotalMiner::PivotalProject.new(story.project_id).story(story.id)
+      story_reload.update params
+    end
 
     attr_accessor :story, :issue
   end

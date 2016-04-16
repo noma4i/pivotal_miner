@@ -6,7 +6,7 @@ module IssuePatch
 
     klass.class_eval do
       unloadable
-      before_update :sync_states
+      before_update :sync_to_pivotal
 
       def pivotal_custom_value(name)
         CustomValue.joins(:custom_field).where(custom_fields: {name: name}, customized_id: self.id).first rescue nil
@@ -59,11 +59,14 @@ module IssuePatch
         attrs = {}
         tags.map(&:upcase).each do |tag|
           if config_mappings['priority'].include?(tag)
-            attrs = attrs.merge(priority_id: (IssuePriority.find_by_name(config_mappings['priority'][tag]).try(:id) || issue.priority).to_i)
+            attrs = attrs.merge(priority_id: (IssuePriority.find_by_name(config_mappings['priority'][tag]).try(:id) || self.priority).to_i)
           end
 
+          mapping = PivotalMiner.get_mapping(self.project_id, Unicode.downcase('sync_all_labels')) || PivotalMiner.get_mapping(self.project_id, Unicode.downcase(tag))
+
+
           if (/^M(\d*)/i =~ tag) === 0
-            attrs = attrs.merge(fixed_version_id: (Version.find_by_id(tag.gsub('M','')).try(:id) || issue.fixed_version_id))
+            attrs = attrs.merge(fixed_version_id: (Version.find_by_id(tag.gsub('M','')).try(:id) || self.fixed_version_id))
           end
         end
 
@@ -75,8 +78,8 @@ module IssuePatch
         PivotalMiner.sync_task(self)
       end
 
-      def sync_states
-        return unless self.changes.include?('status_id') || self.changes.include?('priority_id') || self.changes.include?('fixed_version_id')
+      def sync_to_pivotal
+        return unless self.changes.include?('status_id') || self.changes.include?('priority_id') || self.changes.include?('fixed_version_id') || self.changes.include?('estimated_hours')
         PivotalMiner.sync_story(self, pivotal_project_id, pivotal_story_id) if pivotal_assigned? && !pivotal_task_assigned?
         PivotalMiner.sync_task(self, pivotal_project_id, pivotal_story_id, pivotal_task_id) if pivotal_assigned? && pivotal_task_assigned?
       rescue => e

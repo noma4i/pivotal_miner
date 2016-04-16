@@ -6,7 +6,7 @@ module PivotalMiner
       self.story_id = story_id
       self.issue_id = issue_id
       self.task_id = task_id
-      self.pv_description = description
+      self.pv_description = description.gsub(/\s+/, ' ').strip
     end
 
     def run

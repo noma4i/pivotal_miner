@@ -15,7 +15,7 @@ module PivotalMiner
     end
 
     def description
-      "#{story_url.to_s} --- #{activity.story.description.to_s}"
+      "#{story_url.to_s} \r\n\r\n #{activity.story.description.to_s}"
     end
 
     def params_changed
@@ -34,16 +34,27 @@ module PivotalMiner
         issue = Issue.find(item.id)
         user = User.get_by_pivotal_id(performed_by['id'])
         attrs = {}
+        maps = []
 
         issue.init_journal(user)
         desc_field_id = CustomField.find_by_name(PivotalMiner::CF_STORY_DESCRIPTION).id
-        if description != issue.description
-          attrs = attrs.merge(custom_field_values: Hash[desc_field_id, description])
+        issue_description = CustomValue.joins(:custom_field).where(custom_fields: {id: desc_field_id}, customized_id: item.id).first.try(:value)
+
+        if description.gsub(/\s+/, ' ').strip != issue_description.gsub(/\s+/, ' ').strip
+          attrs = attrs.merge(custom_field_values: Hash[desc_field_id, description.to_s.strip])
         end
+
         issue.update_attributes!(params) if mapping_still_exists?(issue)
         issue.init_journal(user)
 
         attrs = attrs.merge issue.pivotal_label_sync(tags)
+
+        tags + ['sync_all_labels'].map do |label|
+          maps << PivotalMiner.get_mapping(activity.story.project_id, Unicode.downcase(label))
+        end
+        mapping = maps.compact.last
+
+        attrs = attrs.merge(estimated_hours: mapping.estimations[activity.story.estimate.to_s].to_i) if mapping.present?
 
         if new_state.present? && config_mappings['story_states'].include?(new_state.downcase)
           status = IssueStatus.find_by_name(config_mappings['story_states'][new_state.downcase])
