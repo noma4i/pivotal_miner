@@ -63,7 +63,8 @@ module PivotalMiner
 
         if owned_by.present?
           owners = User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, owned_by)
-          attrs = attrs.merge(assigned_to_id: owners.first.to_i) if owners.present?
+
+          attrs = attrs.merge(assigned_to_id: owners.first.id.to_i) if owners.present?
         end
 
         issue.update_attributes(attrs)
