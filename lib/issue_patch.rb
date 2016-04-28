@@ -62,11 +62,11 @@ module IssuePatch
         config_mappings = PivotalMiner::Configuration.new.map_config
         attrs = {}
         tags.map(&:upcase).each do |tag|
-          if config_mappings['priority'].include?(tag) && issue.can_sync?(:redmine, 'priority')
-            attrs = attrs.merge(priority_id: (IssuePriority.find_by_name(config_mappings['priority'][tag]).try(:id) || self.priority).to_i)
+          if config_mappings['priority'].include?(tag) && can_sync?(:redmine, 'priority')
+            attrs = attrs.merge(priority_id: (IssuePriority.find_by_name(config_mappings['priority'][tag]).try(:id) || self.priority_id))
           end
 
-          if (/^M(\d*)/i =~ tag) === 0 && issue.can_sync?(:redmine, 'milestones')
+          if (/^M(\d*)/i =~ tag) === 0 && can_sync?(:redmine, 'milestones')
             attrs = attrs.merge(fixed_version_id: (Version.find_by_id(tag.gsub('M','')).try(:id) || self.fixed_version_id))
           end
         end
