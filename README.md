@@ -20,6 +20,7 @@ Two-Way sync Pivotal Tracker stories/tasks to Redmine. Successor of [Trackmine p
 * Map any Redmine Status to any Pivotal State
 * Map Redmine Users to Pivotal manual or with email automatcher
 * Redmine keeps journal of all changes made via Sync
+* Selective Sync(choose what parts of US or Issues to Sync)a
 
 ## Compatibility
   - Tested with Redmine 2.3.x - 2.4.x
