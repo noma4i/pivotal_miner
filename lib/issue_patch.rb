@@ -54,23 +54,29 @@ module IssuePatch
         issues.count > 0 ? true : false
       end
 
+      def mapping_config
+        PivotalMiner.get_mapping(self.project_id, Unicode.downcase('sync_all_labels')) || PivotalMiner.get_mapping(self.project_id, Unicode.downcase(tag))
+      end
+
       def pivotal_label_sync(tags)
         config_mappings = PivotalMiner::Configuration.new.map_config
         attrs = {}
         tags.map(&:upcase).each do |tag|
-          if config_mappings['priority'].include?(tag)
+          if config_mappings['priority'].include?(tag) && issue.can_sync?(:redmine, 'priority')
             attrs = attrs.merge(priority_id: (IssuePriority.find_by_name(config_mappings['priority'][tag]).try(:id) || self.priority).to_i)
           end
 
-          mapping = PivotalMiner.get_mapping(self.project_id, Unicode.downcase('sync_all_labels')) || PivotalMiner.get_mapping(self.project_id, Unicode.downcase(tag))
-
-
-          if (/^M(\d*)/i =~ tag) === 0
+          if (/^M(\d*)/i =~ tag) === 0 && issue.can_sync?(:redmine, 'milestones')
             attrs = attrs.merge(fixed_version_id: (Version.find_by_id(tag.gsub('M','')).try(:id) || self.fixed_version_id))
           end
         end
 
         attrs
+      end
+
+      def can_sync?(to, what)
+        mapping = PivotalMiner.get_mapping(self.pivotal_project_id)
+        PivotalMiner.selective_sync(mapping, to, what)
       end
 
       def sync_from_pivotal

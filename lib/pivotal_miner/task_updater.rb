@@ -13,6 +13,7 @@ module PivotalMiner
 
     def update_issue
       task = Issue.find(issue_id)
+      return unless issue.can_sync?(:redmine, 'tasks')
       parent_issue = task.relations.first.try(:issue_to)
       task.subject = task_attributes.description
       task.fixed_version = parent_issue.fixed_version

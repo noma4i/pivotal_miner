@@ -10,8 +10,9 @@ module PivotalMiner
     end
 
     def update_task(issue_id)
-      state = PivotalMiner::Configuration.new.map_config['removed_task']
       issue = Issue.find(issue_id)
+      return unless issue.can_sync?(:redmine, 'tasks')
+      state = PivotalMiner::Configuration.new.map_config['removed_task']
       issue.update_column(:status_id, IssueStatus.find_by_name(state).try(:id))
     end
 

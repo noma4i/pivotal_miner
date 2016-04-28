@@ -1,6 +1,5 @@
 module PivotalMiner
   class TaskSync
-
     def initialize(issue, task)
       self.task = task
       self.issue = issue
@@ -13,6 +12,7 @@ module PivotalMiner
     end
 
     def update_task
+      return unless issue.can_sync?(:pivotal, 'tasks')
       state = PivotalMiner::Configuration.new.map_config['task_states'][issue.status.name]
       task.update(:complete => state.eql?('closed'))
     end

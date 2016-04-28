@@ -6,6 +6,8 @@ module PivotalMiner
   CF_PROJECT_ID = 'Pivotal Project ID'
   CF_STORY_DESCRIPTION = 'Pivotal Story Description'
 
+  SYNC_TYPES = %w(tracker state priority milestones estimates owner tasks)
+
   WrongActivityData = Class.new(StandardError)
   MissingPivotalMinerConfig = Class.new(StandardError)
   MissingCredentials = Class.new(StandardError)
@@ -16,6 +18,16 @@ module PivotalMiner
 
   class << self
     attr_writer :error_notification
+
+    def selective_sync(mapping, to, key)
+      if to == :pivotal
+        selective = mapping.sync_pivotal.present? && mapping.sync_pivotal[key] ? true : false
+      elsif to == :redmine
+        selective = mapping.sync_redmine.present? && mapping.sync_redmine[key] ? true : false
+      end
+
+      selective
+    end
 
     def custom_fields_list
       [
@@ -71,8 +83,12 @@ module PivotalMiner
       PivotalMiner::PivotalProject.new(project_id).participant_email(name)
     end
 
-    def get_mapping(tracker_project_id, label)
-      Mapping.where(['tracker_project_id=? AND label=? ', tracker_project_id, label.to_s]).first
+    def get_mapping(tracker_project_id, label=nil)
+      if label.present?
+        Mapping.where(['tracker_project_id=? AND label=? ', tracker_project_id, label.to_s]).first
+      else
+        Mapping.where(tracker_project_id: tracker_project_id).last
+      end
     end
 
     def sync_story(issue, project_id, story_id)

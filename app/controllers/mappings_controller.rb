@@ -20,6 +20,8 @@ class MappingsController < ApplicationController
     @mapping = Mapping.new
     @mapping.estimations = { 1 => 1, 2 => 4, 3 => 10 }
     @mapping.story_types = { 'feature' => 'Feature', 'bug' => 'Bug', 'chore' => 'Support' }
+    @mapping.sync_pivotal = PivotalMiner::SYNC_TYPES.map{|t| {t => true}}.reduce(:merge)
+    @mapping.sync_redmine = PivotalMiner::SYNC_TYPES.map{|t| {t => true}}.reduce(:merge)
     @projects = Project.all
     @tracker_projects = PivotalMiner.projects
     @labels = [['..choose..','']]
@@ -42,7 +44,7 @@ class MappingsController < ApplicationController
   end
 
   def update
-    if @mapping.update_attributes(estimations: params[:estimations], story_types: params[:story_types])
+    if @mapping.update_attributes(estimations: params[:estimations], story_types: params[:story_types],       sync_redmine: params[:sync_redmine], sync_pivotal: params[:sync_pivotal])
       flash[:notice] = 'Updated successfully.'
       redirect_to action: 'index'
     else
@@ -176,7 +178,14 @@ class MappingsController < ApplicationController
   end
 
   def mapping_params
-    { estimations: params[:estimations], story_types: params[:story_types], project_id: params[:mapping][:project_id], label: params[:mapping][:label] }
+    {
+      estimations: params[:estimations],
+      story_types: params[:story_types],
+      sync_redmine: params[:sync_redmine],
+      sync_pivotal: params[:sync_pivotal],
+      project_id: params[:mapping][:project_id],
+      label: params[:mapping][:label],
+     }
   end
 
   def tracker_project_id
@@ -190,5 +199,5 @@ class MappingsController < ApplicationController
   def error_message
     @mapping.errors.full_messages.to_sentence
   end
-
  end
+

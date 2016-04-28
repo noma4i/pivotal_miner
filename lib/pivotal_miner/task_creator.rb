@@ -26,6 +26,7 @@ module PivotalMiner
     def create_issue
       config_mappings = PivotalMiner::Configuration.new.map_config
       old_issue = Issue.find(issue_attributes.id)
+      return unless old_issue.can_sync?(:redmine, 'tasks')
       issue = old_issue.dup
       issue.subject = task_attributes.description
       issue.tracker = Tracker.find_by_name(config_mappings['tasks'])

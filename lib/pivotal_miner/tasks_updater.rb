@@ -10,6 +10,7 @@ module PivotalMiner
     end
 
     def update_tasks(issue)
+      return unless issue.can_sync?(:redmine, 'tasks')
       project = PivotalMiner::PivotalProject.new(issue.pivotal_project_id)
       tasks = project.story(issue.pivotal_story_id).tasks.all || []
 

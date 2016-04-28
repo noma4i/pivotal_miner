@@ -29,6 +29,58 @@
          <% end %>
       </table>
   <% end %>
-</div>
+  </div>
+    <h2>Selective Sync</h2>
+
+  <table>
+    <tr>
+      <td>
+        <div class="box">
+        <h3>Pivotal => Redmine</h3>
+          <table>
+              <tr>
+                <td>
+                  <input type="checkbox" checked="checked" disabled="disabled"/>
+                  <label>Pivotal User Story</label>
+                </td>
+              </tr>
+              <% PivotalMiner::SYNC_TYPES.each do |k| %>
+                <tr>
+                <td>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  <%= check_box_tag "sync_redmine[#{k}]", 'true', (@mapping.sync_redmine[k] rescue false) %>
+                  <%= label_tag "sync_redmine[#{k}]", k.capitalize %></td>
+                </tr>
+               <% end %>
+            </table>
+        </div>
+      </td>
+      <td>
+        <div class="box">
+        <h3>Redmine => Pivotal</h3>
+          <table>
+              <tr>
+                <td>
+                  <input type="checkbox" checked="checked" disabled="disabled"/>
+                  <label>Redmine Issue</label>
+                </td>
+              </tr>
+              <% PivotalMiner::SYNC_TYPES.each do |k| %>
+                <tr>
+                <td>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  <%= check_box_tag "sync_pivotal[#{k}]", 'true', (@mapping.sync_pivotal[k] rescue false)  %>
+                  <%= label_tag "sync_pivotal[#{k}]", k.capitalize %></td>
+                </tr>
+               <% end %>
+            </table>
+        </div>
+      </td>
+    </tr>
+  </table>
 
 

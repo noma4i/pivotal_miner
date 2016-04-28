@@ -58,13 +58,13 @@ module PivotalMiner
 
         if new_state.present? && config_mappings['story_states'].include?(new_state.downcase)
           status = IssueStatus.find_by_name(config_mappings['story_states'][new_state.downcase])
-          attrs = attrs.merge(status_id: status.try(:id)) if status.present?
+          attrs = attrs.merge(status_id: status.try(:id)) if status.present? && issue.can_sync?(:redmine, 'state')
         end
 
         if owned_by.present?
           owners = User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, owned_by)
 
-          attrs = attrs.merge(assigned_to_id: owners.first.id.to_i) if owners.present?
+          attrs = attrs.merge(assigned_to_id: owners.first.id.to_i) if owners.present? && issue.can_sync?(:redmine, 'owner')
         end
 
         issue.update_attributes(attrs)
