@@ -1,6 +1,5 @@
 module PivotalMiner
   class TaskUpdater
-
     def initialize(existing_task_id, task)
       self.issue_id = existing_task_id
       self.is_completed = task.complete
@@ -13,8 +12,8 @@ module PivotalMiner
 
     def update_issue
       task = Issue.find(issue_id)
-      return unless issue.can_sync?(:redmine, 'tasks')
       parent_issue = task.relations.first.try(:issue_to)
+      return unless parent_issue.can_sync?(:redmine, 'tasks')
       task.subject = task_attributes.description
       task.fixed_version = parent_issue.fixed_version
       if is_completed
