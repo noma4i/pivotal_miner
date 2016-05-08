@@ -8,7 +8,7 @@ module PivotalMiner
       delete_issue(issue_id)
     end
 
-    def update_task(issue_id)
+    def delete_issue(issue_id)
       state = PivotalMiner::Configuration.new.map_config['removed_story']
       issue = Issue.find(issue_id)
       issue.update_column(:status_id, IssueStatus.find_by_name(state).try(:id))

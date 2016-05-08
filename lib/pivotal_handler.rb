@@ -25,7 +25,7 @@ class PivotalHandler < Sinatra::Base
       return [200, 'Delete Task']
     elsif pivotal_body['kind'] == 'story_delete_activity'
       pivotal_body['changes'].each do |pv|
-        PivotalMiner::IssueDelete.new(pv['id'].to_i).run
+        PivotalMiner::IssueDelete.new(pv['id'].to_i).run if pv['change_type'] == 'delete'
       end
       return [200, 'Delete Story']
     else
