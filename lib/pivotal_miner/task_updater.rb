@@ -16,10 +16,11 @@ module PivotalMiner
       return unless parent_issue.can_sync?(:redmine, 'tasks')
       task.subject = task_attributes.description
       task.fixed_version = parent_issue.fixed_version
+      task.priority = parent_issue.priority
       if is_completed
         task.status = IssueStatus.find_by_name('Closed')
       else
-        task.status = IssueStatus.find_by_name('Pending')
+        task.status = parent_issue.status
       end
       task.save!
     end

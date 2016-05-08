@@ -1,9 +1,7 @@
 require_dependency 'issue'
 
 module IssuePatch
-
   def self.included(klass) # :nodoc:
-
     klass.class_eval do
       unloadable
       before_update :sync_to_pivotal
