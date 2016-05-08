@@ -16,6 +16,16 @@ module PivotalMiner
   WrongPivotalMinerConfiguration = Class.new(StandardError)
   PivotalTrackerError = Class.new(StandardError)
 
+  ESTIMATES = {
+    1 => 4,
+    2 => 10,
+    3 => 15,
+    5 => 24,
+    8 => 40,
+    13 => 80,
+    20 => 160
+  }
+
   class << self
     attr_writer :error_notification
 
@@ -111,7 +121,5 @@ module PivotalMiner
     def api_v5
       TrackerApi::Client.new(token: PivotalMiner::Configuration.new.credentials('super_user').token)
     end
-
   end
 end
-

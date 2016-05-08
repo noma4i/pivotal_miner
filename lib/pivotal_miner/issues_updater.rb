@@ -1,6 +1,5 @@
 module PivotalMiner
   class IssuesUpdater
-
     def initialize(issues, activity)
       self.issues = issues
       self.activity = activity

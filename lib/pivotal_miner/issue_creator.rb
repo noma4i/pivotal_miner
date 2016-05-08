@@ -1,6 +1,5 @@
 module PivotalMiner
   class IssueCreator
-
     def initialize(label, issue_attributes, mapped_users)
       self.label = label
       self.issue_attributes = issue_attributes
@@ -66,7 +65,7 @@ module PivotalMiner
     def add_comments(issue)
       story.notes.all.each do |note|
         user = User.get_by_pivotal_id(users[note.author]) || AnonymousUser.first
-        journal = issue.journals.create(notes: note.text, user: user)
+        issue.journals.create(notes: note.text, user: user)
       end
     end
 

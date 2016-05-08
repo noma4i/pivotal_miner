@@ -7,7 +7,7 @@ module Tracmine
     end
 
     def view_layouts_base_html_head(context)
-      stylesheet_link_tag('pivotal_miner.css', :plugin => 'pivotal_miner')
+      stylesheet_link_tag('pivotal_miner.css', plugin: 'pivotal_miner')
     end
   end
 end

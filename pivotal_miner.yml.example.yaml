@@ -8,8 +8,10 @@ error_notification:
 mappings:
   # tracker name for SubTasks
   tasks: Task
-  # status name for task in Redmine in case it was deleted from Pivotal Tracker
+  # status name for Task in Redmine in case it was deleted from Pivotal Tracker
   removed_task: Rejected
+  # status name for Issue in Redmine if Story was deleted from Pivotal Tracker
+  removed_story: Rejected
   # Tag name in Pivotal to change priority
   priority:
      P1: Immediate

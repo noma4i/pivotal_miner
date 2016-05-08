@@ -20,7 +20,7 @@ Redmine::Plugin.register :pivotal_miner do
   name 'Redmine PivotalMiner plugin'
   author 'Alexander Tsirel'
   description 'Seamless Pivotal Tracker Two-Way sync'
-  version '1.2.2'
+  version '1.3.0'
 
-  menu :admin_menu, :mapping, {controller: :mappings, action: 'index'}, caption: 'Pivotal Miner', last: true
+  menu :admin_menu, :pivotal_miner, { controller: :pivotal_miner_mappings, action: 'index' }, caption: 'Pivotal Miner', last: true
 end

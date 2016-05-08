@@ -86,9 +86,6 @@ module IssuePatch
         return unless self.changes.include?('status_id') || self.changes.include?('priority_id') || self.changes.include?('fixed_version_id') || self.changes.include?('estimated_hours')
         PivotalMiner.sync_story(self, pivotal_project_id, pivotal_story_id) if pivotal_assigned? && !pivotal_task_assigned?
         PivotalMiner.sync_task(self, pivotal_project_id, pivotal_story_id, pivotal_task_id) if pivotal_assigned? && pivotal_task_assigned?
-      rescue => e
-        error_message = "Error while Syncing Story ID:'#{pivotal_story_id}' in Project ID:'#{pivotal_project_id}' : #{e}"
-        raise error_message
       end
     end
   end

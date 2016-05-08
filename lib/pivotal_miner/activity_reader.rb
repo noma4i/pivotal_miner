@@ -1,6 +1,5 @@
 module PivotalMiner
   class ActivityReader
-
     def initialize(activity)
       self.activity = activity
     end
@@ -29,4 +28,3 @@ module PivotalMiner
     attr_accessor :activity
   end
 end
-

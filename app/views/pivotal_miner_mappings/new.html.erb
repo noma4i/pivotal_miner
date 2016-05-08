@@ -1,7 +1,7 @@
 <%= javascript_include_tag 'mappings', plugin: 'pivotal_miner' %>
 
 <h2>Map Redmine project to Pivotal Tracker project and labels.</h2>
-<%= form_for :mapping , :url => { controller: :mappings, action: :create } do |f| %>
+<%= form_for :mapping , :url => { controller: :pivotal_miner_mappings, action: :create } do |f| %>
 
   <div class="box">
 

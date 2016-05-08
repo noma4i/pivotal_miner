@@ -1,8 +1,8 @@
-resources :mappings, except: :show
+resources :pivotal_miner_mappings, except: :show
 
-get 'mappings/update_labels', to: 'mappings#update_labels'
-get 'mappings/import_users', to: 'mappings#import_users'
-get 'mappings/pivotal_users', to: 'mappings#pivotal_users'
-get 'mappings/pivotal_importer', to: 'mappings#pivotal_importer'
-get 'mappings/update_user', to: 'mappings#update_user'
-get 'mappings/update_from_pivotal', to: 'mappings#update_from_pivotal'
+get 'pivotal_miner_mappings/update_labels', to: 'pivotal_miner_mappings#update_labels'
+get 'pivotal_miner_mappings/import_users', to: 'pivotal_miner_mappings#import_users'
+get 'pivotal_miner_mappings/pivotal_users', to: 'pivotal_miner_mappings#pivotal_users'
+get 'pivotal_miner_mappings/pivotal_importer', to: 'pivotal_miner_mappings#pivotal_importer'
+get 'pivotal_miner_mappings/update_user', to: 'pivotal_miner_mappings#update_user'
+get 'pivotal_miner_mappings/update_from_pivotal', to: 'pivotal_miner_mappings#update_from_pivotal'

@@ -1,13 +1,12 @@
 module PivotalMiner
   class StorySync
-
     def initialize(issue, project_id, story_id)
       self.story = PivotalMiner::PivotalProject.new(project_id).story(story_id)
       self.issue = issue
     end
 
     def labels
-      story.labels.split(',') + ['sync_all_labels']
+      story.labels.to_s.split(',').push('sync_all_labels')
     end
 
     def mapping
@@ -31,9 +30,15 @@ module PivotalMiner
       attrs = attrs.merge(subject: story.name) if status.present?
       attrs = attrs.merge(status_id: status.try(:id)) if status.present? && issue.can_sync?(:redmine, 'state')
       attrs = attrs.merge(tracker_id: story_type.try(:id)) if issue.can_sync?(:redmine, 'tracker')
+
+      if issue.can_sync?(:redmine, 'owner')
+        owners = User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, story.owned_by)
+        attrs = attrs.merge(assigned_to_id: owners.first.id.to_i) if owners.present? && issue.can_sync?(:redmine, 'owner')
+      end
+
       attrs = attrs.merge(estimated_hours: mapping.estimations[story.estimate.to_s].to_i) if mapping.present? && issue.can_sync?(:redmine, 'estimates')
 
-      attrs.to_a.map{|attr| issue.update_column(attr.first, attr.last)}
+      attrs.to_a.map{ |attr| issue.update_column(attr.first, attr.last) }
     end
 
     def update_story

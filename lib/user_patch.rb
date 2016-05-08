@@ -40,8 +40,4 @@ module UserPatch
       end
     end
   end
-
 end
-
-
-CustomValue.joins(:custom_field).where(custom_fields: {name: PivotalMiner::CF_USER_ID}, customized_id: 1)

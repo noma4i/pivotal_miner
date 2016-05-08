@@ -1,7 +1,7 @@
 $(document).ready(function ($) {
   $('#tracker_project_id').on('change', function() {
     var tracker_project_id = $(this).val();
-    $.ajax('/mappings/update_labels', {
+    $.ajax('/pivotal_miner_mappings/update_labels', {
       success: function(response) {
         $('#mapping_label option').remove();
         $('#mapping_label').append("<option value='sync_all_labels'>-- ALL LABELS --</option>");
@@ -17,7 +17,7 @@ $(document).ready(function ($) {
   $('#pivotal_user_mapping').on('change', function() {
     var user_id = $(this).val();
     var pivotal_id = $(this).parents('td').data('pivotal-id');
-    $.ajax('/mappings/update_user', {
+    $.ajax('/pivotal_miner_mappings/update_user', {
       success: function(response) {
         alert('User mapped!');
       },

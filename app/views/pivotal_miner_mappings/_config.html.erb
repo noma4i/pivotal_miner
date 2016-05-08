@@ -6,7 +6,7 @@
     <% @mapping.estimations.each do |pair| %>
       <p>
        <b> Estimation points:</b> <%= label_tag pair[0] %> =>
-        <%= text_field_tag "estimations[#{pair[0]}]", pair[1], :size => 1 %><b> hours </b>
+        <%= text_field_tag "estimations[#{pair[0]}]", pair[1], :size => 3 %><b> hours </b>
       </p>
 
      <% end %>

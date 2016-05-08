@@ -1,6 +1,5 @@
 module PivotalMiner
   class IssuesCreator
-
     def initialize(activity)
       self.activity = activity
     end
@@ -10,7 +9,7 @@ module PivotalMiner
     end
 
     def labels
-      story.labels.to_s.split(',') || ['sync_all_labels']
+      story.labels.to_s.split(',').push('sync_all_labels')
     end
 
     def issue_attributes
