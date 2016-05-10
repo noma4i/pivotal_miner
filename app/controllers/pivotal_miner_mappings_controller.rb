@@ -1,7 +1,7 @@
 class PivotalMinerMappingsController < ApplicationController
   unloadable
 
-  before_filter :require_admin
+  before_filter :require_admin, exclude: [:update_from_pivotala]
   before_filter :set_token
   before_filter :set_mapping, only: [:edit, :update, :destroy]
 
