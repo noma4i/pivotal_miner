@@ -76,7 +76,7 @@ class PivotalMinerMappingsController < ApplicationController
         user = User.find_by_mail(member.person.email)
         next unless user.present?
 
-        field = user.available_custom_fields.inject{|field| field.name == 'Pivotal User ID'}
+        field = user.available_custom_fields.inject{|field| field.name == PivotalMiner::CF_USER_IDac}
         CustomValue.create!(
           customized_type: 'Principal',
           custom_field_id: field.id,
