@@ -48,10 +48,6 @@ First of all you will need to setup `pivotal_miner.yml` (example included) and p
 super_user:
   token: PIVOTAL_TRACKER_TOKEN
 
-error_notification:
-  recipient: test@example.com
-  from: "[information to emails FROM field]"
-
 mappings:
   # tracker name for SubTasks
   tasks: Task

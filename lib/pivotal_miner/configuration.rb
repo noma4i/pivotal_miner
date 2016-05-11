@@ -21,7 +21,7 @@ module PivotalMiner
     end
 
     def error_notification
-      config['error_notification']
+      # config['error_notification']
     end
 
     def credentials(user)

@@ -62,11 +62,11 @@ module PivotalMiner
     end
 
     def set_error_notification
-      @error_notification = PivotalMiner::Configuration.new.error_notification
+      # @error_notification = PivotalMiner::Configuration.new.error_notification
     end
 
     def error_notification
-      @error_notification
+      # @error_notification
     end
 
     def projects

@@ -14,7 +14,7 @@ Issue.send(:include, IssuePatch)
 Project.send(:include, ProjectPatch)
 User.send(:include, UserPatch)
 
-PivotalMiner.set_error_notification
+# PivotalMiner.set_error_notification
 
 Redmine::Plugin.register :pivotal_miner do
   name 'Redmine PivotalMiner plugin'
