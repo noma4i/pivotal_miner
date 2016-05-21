@@ -20,8 +20,9 @@ module PivotalMiner
 
     def update_issue
       config_mappings = PivotalMiner::Configuration.new.map_config
-
-      description =  "#{story.url} \r\n\r\n #{story.description.to_s}"
+      pv_client_v5 = PivotalMiner.api_v5
+      story_v5 = pv_client_v5.story(story.id)
+      description = "#{story.url} \r\n\r\n #{story.description.to_s}"
       PivotalMiner::CustomValuesCreator.new(story.project_id, story.id, issue.id, nil, description).run
       status = IssueStatus.find_by_name(config_mappings['story_states'][story.current_state])
       story_type = Tracker.find_by_name(issue.project.mappings.last.story_types[story.story_type]) || issue.tracker
@@ -32,7 +33,7 @@ module PivotalMiner
       attrs = attrs.merge(tracker_id: story_type.try(:id)) if issue.can_sync?(:redmine, 'tracker')
 
       if issue.can_sync?(:redmine, 'owner')
-        owners = User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, story.owned_by)
+        owners = User.joins({custom_values: :custom_field}).where("custom_fields.name=? AND custom_values.value=?", PivotalMiner::CF_USER_ID, story_v5.owned_by_id)
         attrs = attrs.merge(assigned_to_id: owners.first.id.to_i) if owners.present? && issue.can_sync?(:redmine, 'owner')
       end
 
